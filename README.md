@@ -1,1 +1,1 @@
-# pairs
+Python | AI | R | Stata
