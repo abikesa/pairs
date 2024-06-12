@@ -1,0 +1,75 @@
+Traceback (most recent call last):
+  File "/usr/local/anaconda3/lib/python3.11/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+  File "/usr/local/anaconda3/lib/python3.11/site-packages/nbclient/client.py", line 1204, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/anaconda3/lib/python3.11/site-packages/nbclient/util.py", line 84, in wrapped
+    return just_run(coro(*args, **kwargs))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/anaconda3/lib/python3.11/site-packages/nbclient/util.py", line 62, in just_run
+    return loop.run_until_complete(coro)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/anaconda3/lib/python3.11/asyncio/base_events.py", line 653, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/usr/local/anaconda3/lib/python3.11/site-packages/nbclient/client.py", line 663, in async_execute
+    await self.async_execute_cell(
+  File "/usr/local/anaconda3/lib/python3.11/site-packages/nbclient/client.py", line 965, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/usr/local/anaconda3/lib/python3.11/site-packages/nbclient/client.py", line 862, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+# Set working directory (adjust to your specific path)
+setwd("~/documents/github/justdo/")
+
+# Install necessary packages if not already installed
+install.packages(c("ggplot2", "RColorBrewer", "reshape2"))
+
+# Load necessary libraries
+library(ggplot2)
+library(RColorBrewer)
+library(reshape2)
+
+# Set seed for reproducibility
+set.seed(19680801)
+
+# Generate data
+N <- 10
+data <- replicate(N, log10(1:100) + rnorm(100) + seq(0, N - 1))
+
+# Convert data to a data frame for ggplot2
+df <- as.data.frame(data)
+df$index <- 1:100
+df_long <- melt(df, id.vars = "index")
+
+# Create a custom color palette
+colors <- colorRampPalette(rev(brewer.pal(11, "Spectral")))(N)
+
+# Plot the data
+p <- ggplot(df_long, aes(x = index, y = value, color = factor(variable))) +
+  geom_line(size = 1) +
+  scale_color_manual(values = colors, name = "Legend",
+                     labels = c("Cold", "Medium", "Hot")) +
+  theme_minimal() +
+  theme(legend.position = "top") +
+  labs(title = "Logarithmic Data with Random Noise",
+       x = "Index",
+       y = "Value")
+
+# Display the plot
+print(p)
+
+# Save the plot with a wider aspect ratio
+ggsave("r.png", plot = p, width = 10, height = 8)
+
+------------------
+
+Error in setwd("~/documents/github/justdo/"): cannot change working directory
+Traceback:
+
+1. setwd("~/documents/github/justdo/")
+ERROR: Error in setwd("~/documents/github/justdo/"): cannot change working directory
+
+
